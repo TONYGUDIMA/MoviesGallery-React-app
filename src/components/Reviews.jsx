@@ -6,6 +6,9 @@ function Reviews() {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
+    if (reviews.length > 0) {
+      return;
+    }
     async function get() {
       try {
         const options = {
@@ -28,22 +31,25 @@ function Reviews() {
     }
     get();
   });
-  return (
-    <ul
-      style={{
-        padding: '20px',
-      }}
-    >
-      {reviews.map(review => {
-        return (
-          <li key={nanoid()}>
-            <h4>Author: {review.author}</h4>
-            <p>{review.content}</p>
-          </li>
-        );
-      })}
-    </ul>
-  );
+  if (reviews.length === 0) {
+    return <h4>No reviews found</h4>;
+  } else
+    return (
+      <ul
+        style={{
+          padding: '20px',
+        }}
+      >
+        {reviews.map(review => {
+          return (
+            <li key={nanoid()}>
+              <h4>Author: {review.author}</h4>
+              <p>{review.content}</p>
+            </li>
+          );
+        })}
+      </ul>
+    );
 }
 
 export default Reviews;
