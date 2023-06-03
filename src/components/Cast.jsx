@@ -6,9 +6,6 @@ function Cast() {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
   useEffect(() => {
-    if (cast.length > 0) {
-      return;
-    }
     async function get() {
       try {
         const options = {
@@ -30,7 +27,7 @@ function Cast() {
       }
     }
     get();
-  });
+  }, [movieId]);
   if (cast.length === 0) {
     return <h4>No cast found</h4>;
   } else

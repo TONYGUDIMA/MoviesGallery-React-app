@@ -6,9 +6,6 @@ function Reviews() {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
-    if (reviews.length > 0) {
-      return;
-    }
     async function get() {
       try {
         const options = {
@@ -30,7 +27,7 @@ function Reviews() {
       }
     }
     get();
-  });
+  }, [movieId]);
   if (reviews.length === 0) {
     return <h4>No reviews found</h4>;
   } else
