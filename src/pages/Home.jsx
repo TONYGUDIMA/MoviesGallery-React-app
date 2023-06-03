@@ -1,10 +1,11 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 export default function Home() {
   const [results, setResults] = useState([]);
+  const location = useLocation();
   useEffect(() => {
     async function get() {
       try {
@@ -47,7 +48,11 @@ export default function Home() {
       >
         {results.map(el => {
           return (
-            <Link to={`/movies/${el.id}`} key={nanoid()}>
+            <Link
+              to={`/movies/${el.id}`}
+              key={nanoid()}
+              state={{ from: location }}
+            >
               {' '}
               <li
                 style={{

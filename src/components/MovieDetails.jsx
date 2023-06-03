@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import axios from 'axios';
+
 function MovieDetails() {
   const { movieId } = useParams();
   const [info, setinfo] = useState();
+  const location = useLocation();
   useEffect(() => {
     async function get() {
       try {
@@ -31,6 +33,7 @@ function MovieDetails() {
   return (
     info && (
       <div style={{ paddingBottom: '500px' }}>
+        <Link to={location.state.from}>Go back</Link>
         <div style={{ display: 'flex', gap: '32px', marginBottom: '30px' }}>
           <img
             src={`https://image.tmdb.org/t/p/w500/${info.poster_path}`}
