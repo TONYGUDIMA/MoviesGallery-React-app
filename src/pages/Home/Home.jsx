@@ -1,35 +1,21 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
 import { nanoid } from 'nanoid';
+import ThemovieDB from 'TheMovieDbService';
 export default function Home() {
   const [results, setResults] = useState([]);
   const location = useLocation();
   useEffect(() => {
-    async function get() {
-      try {
-        const options = {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZTFlM2NhNWEwMzhjYjE5YWE0NDQ4MTcyMjJjNDViMyIsInN1YiI6IjY0Nzc3ZDQ5MTc0OTczMDEzNWZmOWMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wAdw2a-XnOHB5EkPOkcAHNROr6KXTn-LqbFP8KDzpdE',
-          },
-        };
-
-        const response = await axios(
-          'https://api.themoviedb.org/3/trending/all/day?language=en-US',
-          options
-        );
-        const results = response.data.results;
-        setResults(results);
-      } catch (error) {
-        console.log(error);
-      }
+    if (results.length > 0) {
+      return;
     }
-    get();
-  }, []);
+    async function getTrending() {
+      setResults(await ThemovieDB.getTrending());
+    }
+
+    getTrending();
+  });
   return (
     <div>
       <ul

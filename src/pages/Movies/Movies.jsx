@@ -2,40 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { nanoid } from 'nanoid';
-
+import ThemovieDB from 'TheMovieDbService';
 export default function Movies() {
   const [inputValue, setInputValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams('');
   const location = useLocation();
   useEffect(() => {
+    if (searchResult.length > 0) {
+      return;
+    }
     const value = searchParams.get('name') ?? '';
     if (inputValue === value) {
       return;
     }
     async function get() {
-      try {
-        const options = {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmZTFlM2NhNWEwMzhjYjE5YWE0NDQ4MTcyMjJjNDViMyIsInN1YiI6IjY0Nzc3ZDQ5MTc0OTczMDEzNWZmOWMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.wAdw2a-XnOHB5EkPOkcAHNROr6KXTn-LqbFP8KDzpdE',
-          },
-        };
-
-        const response = await axios(
-          `https://api.themoviedb.org/3/search/movie?query=${value}&include_adult=false&language=en-US&page=1`,
-          options
-        );
-        setSearchResult(response.data.results);
-        setInputValue(value);
-      } catch (error) {
-        console.log(error);
-      }
+      setSearchResult(await ThemovieDB.getMovieByQ(value));
+      setInputValue(value);
     }
     get();
-  });
+  }, [inputValue, searchParams, searchResult.length]);
   const onSubmit = async () => {
     if (!inputValue) {
       return;

@@ -2,11 +2,11 @@ import React, { Suspense } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import css from './App.module.css';
 import { ColorRing } from 'react-loader-spinner';
-const Home = React.lazy(() => import('pages/Home'));
-const Movies = React.lazy(() => import('pages/Movies'));
-const MovieDetails = React.lazy(() => import('./MovieDetails'));
-const Cast = React.lazy(() => import('./Cast'));
-const Reviews = React.lazy(() => import('./Reviews'));
+const Home = React.lazy(() => import('pages/Home/Home'));
+const Movies = React.lazy(() => import('pages/Movies/Movies'));
+const MovieDetails = React.lazy(() => import('../pages/MovieDetails/MovieDetails'));
+const Cast = React.lazy(() => import('./Cast/Cast'));
+const Reviews = React.lazy(() => import('./Reviews/Reviews'));
 
 export default function App() {
   return (
